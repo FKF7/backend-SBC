@@ -1,0 +1,19 @@
+Rodar o backend com o banco zerado
+docker compose exec backend python manage.py flush
+
+Criar novo app
+docker compose exec backend python manage.py startapp <appName>
+
+Rodar serviço específico
+docker compose up <service>
+
+Ver quais serviços estão rodando
+docker compose ps
+
+Acessar o banco diretamente para rodar consultas (exit com \q)
+docker compose exec db psql -U appuser -d appdb
+
+Fazer migrações
+python manage.py makemigrations (dentro de backend/backend)
+docker compose exec backend python manage.py makemigrations
+docker compose exec backend python manage.py migrate
