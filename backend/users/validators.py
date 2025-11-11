@@ -3,7 +3,9 @@ from django.utils.translation import gettext_lazy as _
 from core.constants.constants import Constants
 
 def isEmailValid(email) -> bool:
-    print(Constants.EMAILS_FILE_PATH)
     with open(Constants.EMAILS_FILE_PATH, "r") as file:
-        emails = [line.strip().lower() for line in file if line.strip()]
-        return email in emails
+        data = file.readlines()
+        for line in data:
+            if email == line.strip():
+                return True
+        return False

@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.http import JsonResponse
 from rest_framework.routers import SimpleRouter
 from users.views import UserViewSet
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 def ping(request):
     return JsonResponse({"status": "ok"})
@@ -29,5 +30,8 @@ router.register(r'users', UserViewSet, basename='userprofile')
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
+    path("login/", include("users.urls")),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("ping/", ping),
 ]
