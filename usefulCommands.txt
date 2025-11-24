@@ -32,3 +32,6 @@ docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
 
 type init_admin.py | python manage.py shell
+
+Deletar tudo de pycache huehuehue
+Get-ChildItem -Recurse -Filter "__pycache__" | Remove-Item -Recurse -Force
