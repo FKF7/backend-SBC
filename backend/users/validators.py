@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-from core.constants.constants import Constants
+from core.constants import Constants
 
 def isEmailValid(email) -> bool:
     with open(Constants.EMAILS_FILE_PATH, "r") as file:

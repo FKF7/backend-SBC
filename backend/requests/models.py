@@ -1,8 +1,7 @@
 from django.db import models
-from localflavor.br.models import BRCPFField
 from users.models import User
 from events.models import Event
-from core.constants.constants import RequestStatus
+from core.constants import RequestStatus
 
 # Create your models here.
 
@@ -15,9 +14,8 @@ class Request(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        related_name="requests"                
+        related_name="requests"
     )
-    email = models.EmailField(unique=True)
     observations = models.TextField(blank=True, default="")
     status = models.IntegerField(choices=RequestStatus.choices, default=RequestStatus.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)

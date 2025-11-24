@@ -46,3 +46,9 @@ def login_and_set_cookies(request):
         max_age=60 * 60 * 24 * 7,  # 7 dias
     )
     return response
+
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def me(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)

@@ -23,7 +23,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(primary_key=True)
     name = models.CharField(max_length=100)
-    cpf = BRCPFField(unique=True)
+    cpf = BRCPFField(unique=True, null=True, blank=True)
+    passport_number = models.IntegerField(null=True, blank=True)
+    passport_country = models.CharField(max_length=2, null=True, blank=True)
     birth_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(blank=True, null=True)
@@ -33,7 +35,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["cpf", "name", "birth_date"]
+    REQUIRED_FIELDS = ["cpf"]
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["passport_number", "passport_country"],
+                name="unique_passport_per_country",
+            )
+        ]
 
     def __str__(self):
         return self.name

@@ -17,3 +17,18 @@ Fazer migrações
 python manage.py makemigrations (dentro de backend/backend)
 docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
+
+Deletar Migrações:
+Dentro da pasta backend:
+Get-ChildItem -Recurse -Include *.py -Path *\migrations | Where-Object { $_.Name -ne "__init__.py" } | Remove-Item
+Get-ChildItem -Recurse -Include *.pyc -Path *\migrations | Remove-Item
+
+Resetar banco
+docker compose down -v
+docker compose up --build
+
+Refazer migrações:
+docker compose exec backend python manage.py makemigrations
+docker compose exec backend python manage.py migrate
+
+type init_admin.py | python manage.py shell
