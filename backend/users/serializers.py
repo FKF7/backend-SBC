@@ -13,7 +13,7 @@ def is_email_whitelisted(email) -> bool:
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "name", "birth_date", "cpf", "passport_number", "passport_country", "password", "created_at"]
+        fields = ["uuid", "email", "name", "birth_date", "cpf", "passport_number", "passport_country", "is_staff", "password"]
         read_only_fields = ["created_at"]
         extra_kwargs = {
             "password": {"write_only": True},

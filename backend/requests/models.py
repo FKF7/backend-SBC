@@ -2,10 +2,12 @@ from django.db import models
 from users.models import User
 from events.models import Event
 from core.constants import RequestStatus
+import uuid
 
 # Create your models here.
 
 class Request(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

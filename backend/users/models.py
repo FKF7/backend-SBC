@@ -2,26 +2,25 @@ from django.db import models
 from localflavor.br.models import BRCPFField
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+import uuid
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, cpf, email, password=None, **extra):
-        if not cpf:
-            raise ValueError("CPF obrigatório")
+    def create_user(self, email, name, password=None, **extra):
         email = self.normalize_email(email)
-        user = self.model(cpf=cpf, email=email, **extra)
+        user = self.model(email=email, name=name, **extra)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, cpf, email, password=None, **extra):
+    def create_superuser(self, email, name, password=None, **extra):
         extra.setdefault("is_staff", True)
         extra.setdefault("is_superuser", True)
-        return self.create_user(cpf, email, password, **extra)
-
+        return self.create_user(email, name, password, **extra)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(primary_key=True)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True)
     name = models.CharField(max_length=100)
     cpf = BRCPFField(unique=True, null=True, blank=True)
     passport_number = models.IntegerField(null=True, blank=True)
@@ -35,7 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["cpf"]
+    REQUIRED_FIELDS = []
 
     class Meta:
         constraints = [

@@ -10,32 +10,31 @@ from rest_framework_simplejwt.tokens import RefreshToken
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by("-cpf")
+    queryset = User.objects.all().order_by("-email")
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] # pode precisar mudar a permissão
 
 @api_view(["POST"])
 @permission_classes([permissions.AllowAny])
 def login_and_set_cookies(request):
-    cpf = request.data.get("cpf")
+    email = request.data.get("email")
     password = request.data.get("password")
 
-    user = authenticate(request, cpf=cpf, password=password)
+    user = authenticate(request, email=email, password=password)
     if user is None:
-        return Response({"detail": "CPF ou senha inválidos."}, status=400)
+        return Response({"detail": "email ou senha inválidos."}, status=400)
 
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
 
     response = Response({"message": "Login bem-sucedido!"})
-    # ↓ Cookies httpOnly (não acessíveis via JS)
     response.set_cookie(
         key="access",
         value=access_token,
         httponly=True,
         samesite="Lax",
         secure=False,  # True em produção HTTPS
-        max_age=60 * 15,  # 15 minutos
+        max_age=60 * 45,
     )
     response.set_cookie(
         key="refresh",
@@ -43,7 +42,7 @@ def login_and_set_cookies(request):
         httponly=True,
         samesite="Lax",
         secure=False,
-        max_age=60 * 60 * 24 * 7,  # 7 dias
+        max_age=60 * 60 * 24 * 7,
     )
     return response
 

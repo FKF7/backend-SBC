@@ -30,7 +30,8 @@ router.register(r'users', UserViewSet, basename='userprofile')
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
-    path("login/", include("users.urls")),
+    path("", include("users.urls")),
+    path("", include("events.urls")),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("ping/", ping),
