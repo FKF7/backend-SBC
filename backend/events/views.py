@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import Event, Place, RoleCost
 from .serializers import EventSerializer, EventPublicSerializer, PlaceSerializer, RoleCostSerializer
 from .permissions import IsAdminOrReadOnly
-from .utils import generate_event_reportfunt
+from core.constants import RequestStatus
+from .utils import generate_event_report
 
 # Create your views here.
 
@@ -22,13 +23,13 @@ class EventViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
         
-    @action(detail=True, methods=['get'], url_path='gerar-relatorio')
+    @action(detail=True, methods=['get'], url_path='generate-report', permission_classes=[IsAdminOrReadOnly])
     def generate_report(self, request, pk=None):
         event = self.get_object()
         
         participants_data = []
         
-        approved_requests = event.requests.filter(status=2).select_related('user')
+        approved_requests = event.requests.filter(status=RequestStatus.APPROVED).select_related('user')
         
         for req in approved_requests:
             user = req.user
