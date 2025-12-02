@@ -7,3 +7,4 @@ django-localflavor>=4.0
 argon2-cffi>=23.1.0
 djangorestframework-simplejwt>=5.3.0
 python-dotenv
+openpyxl>=3.1.2
