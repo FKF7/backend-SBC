@@ -6,10 +6,11 @@ class Constants():
 
 class RequestStatus(models.IntegerChoices):
     PENDING = 1, "Pending"
-    APPROVED = 2, "Approved"
-    REJECTED = 3, "Rejected"
-    EXPIRED = 4, "Expired"
-    
+    AWAITING_PAYMENT = 2, "Aguardando Pagamento"
+    APPROVED = 3, "Approved"
+    REJECTED = 4, "Rejected"
+    EXPIRED = 5, "Expired"
+
 class Roles(models.IntegerChoices):
     DIRECTORY_MEMBER = 1, "Membro da Diretoria"
     COUNCIL_MEMBER = 2, "Membro do Conselho"
@@ -17,3 +18,14 @@ class Roles(models.IntegerChoices):
     REGIONAL_SECRETARY = 4, "Secretário Regional"
     SPECIAL_COMMISSION_COORDINATOR = 5, "Coordenador de Comissão Especial"
     OTHERS = 6, "Outros"
+    
+class TravelTime(models.IntegerChoices):
+    MORNING = 1, "Manhã"
+    AFTERNOON = 2, "Tarde"
+    EVENING = 3, "Noite"
+    NIGHT = 4, "Madrugada"
+
+class RoomType(models.IntegerChoices):
+    SINGLE = 1, "Individual"
+    DOUBLE = 2, "Duplo"
+    GUEST = 3, "Com Convidado"

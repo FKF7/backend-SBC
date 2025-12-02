@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 from events.models import Event
-from core.constants import RequestStatus
+from core.constants import RequestStatus, Roles, TravelTime, RoomType
 import uuid
 
 # Create your models here.
@@ -18,9 +18,31 @@ class Request(models.Model):
         on_delete=models.CASCADE,
         related_name="requests"
     )
-    observations = models.TextField(blank=True, default="")
+
+    phone_number = models.CharField(max_length=11 , blank=True, default="")
+    institution = models.CharField(max_length=80, null=True, blank=True)
+    role = models.IntegerField(choices=Roles.choices)
+    room_type = models.IntegerField(choices=RoomType.choices)
+    people_count = models.IntegerField(default=1)
+    checkin_date = models.DateField()
+    checkout_date = models.DateField() 
+    special_needs = models.TextField(blank=True, default="")
+
+    origin_city = models.CharField(max_length=60, blank=True, default="")
+    origin_state = models.CharField(max_length=2, blank=True, default="")
+    origin_airport = models.CharField(max_length=60, blank=True, default="")
+    departure_date = models.DateField(null=True, blank=True)
+    departure_preferred_time = models.IntegerField(choices=TravelTime.choices, blank=True, default=0)
+    return_date = models.DateField(null=True, blank=True)
+    return_preferred_time = models.IntegerField(choices=TravelTime.choices, blank=True, default=0)
+    
+    expected_payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    value_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     status = models.IntegerField(choices=RequestStatus.choices, default=RequestStatus.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    
 
     class Meta:
         constraints = [
