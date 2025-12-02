@@ -22,7 +22,6 @@ class EventViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
         
-    # Updated Action with English terms
     @action(detail=True, methods=['get'], url_path='gerar-relatorio')
     def generate_report(self, request, pk=None):
         event = self.get_object()
