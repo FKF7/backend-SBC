@@ -33,13 +33,24 @@ class EventViewSet(ModelViewSet):
         
         for req in approved_requests:
             user = req.user
+            
+            origin_full = ""
+            if req.origin_city and req.origin_state:
+                origin_full = f"{req.origin_city} / {req.origin_state}"
+            elif req.origin_city:
+                origin_full = req.origin_city
+                
             participants_data.append({
                 'name': user.name,
                 'email': user.email,
                 'cpf': str(user.cpf) if user.cpf else '',
                 'birth_date': user.birth_date,
-                'role': 'Participant', 
-                'phone': ''
+                'role': req.get_role_display(), 
+                'phone': req.phone_number,
+                'departure_date': req.departure_date,
+                'origin': origin_full,
+                'return_date': req.return_date,
+                'room_type': req.get_room_type_display(),
             })
 
         report_data = {
