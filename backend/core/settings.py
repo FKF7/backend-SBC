@@ -60,8 +60,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = [os.environ.get("FRONTEND_URL")]
+CSRF_TRUSTED_ORIGINS = [os.environ.get("FRONTEND_URL")]
 
 ROOT_URLCONF = 'core.urls'
 
