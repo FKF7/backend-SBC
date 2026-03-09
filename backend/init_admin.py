@@ -10,7 +10,7 @@ load_dotenv(ENV_PATH)
 def run():
     User = get_user_model()
 
-    admin_name = os.getenv("NAME")
+    admin_name = os.getenv("ADMIN_NAME")
     admin_email = os.getenv("ADMIN_EMAIL")
     admin_password = os.getenv("ADMIN_PASSWORD")
     print
